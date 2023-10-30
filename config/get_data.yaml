@@ -1,0 +1,11 @@
+ticker_config:
+  url: "http://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
+  include_historical: True
+  ticker_limit: null
+
+yahoo_config:
+  start_date: 1957-03-04  # start of S&P500
+  end_date: 2023-10-27
+  interval: 1d
+
+output_path: data/get_data.parquet

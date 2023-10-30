@@ -1,0 +1,5 @@
+[MASTER]
+disable=
+    C0116, # missing fn docstring
+    C0115, # missing-class-docstring
+    C0114 # missing module docstring
