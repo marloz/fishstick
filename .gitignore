@@ -1,3 +1,4 @@
 outputs/*
 data/*
 */__pycache__/*
+sandbox.ipynb

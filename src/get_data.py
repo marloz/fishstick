@@ -42,7 +42,7 @@ def scrape_tickers(
             historical_tickers.append(removed_ticker)
         tickers += historical_tickers
 
-    return [*set(ticker.strip() for ticker in tickers)][:limit]
+    return sorted([*set(ticker.strip() for ticker in tickers)])[:limit]
 
 
 def get_daily_ticker_data(
@@ -56,7 +56,7 @@ def get_daily_ticker_data(
         )
         .stack()
         .reset_index()
-        .rename(index=str, columns={"level_1": "Symbol"})
+        .rename(columns={"level_1": "Symbol"})
         .sort_values(["Symbol", "Date"])
     )
 
