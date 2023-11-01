@@ -1,0 +1,8 @@
+stages:
+  get_data:
+    cmd: python -m src.get_data
+    deps:
+    - src/get_data.py
+    - config/get_data.yaml
+    outs:
+    - data/get_data.parquet

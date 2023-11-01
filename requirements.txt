@@ -5,3 +5,4 @@ loguru==0.7.2
 fastparquet==2023.10.1
 pytest==7.4.3
 mock==5.1.0
+dvc==3.28.0

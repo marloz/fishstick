@@ -1,0 +1,18 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: python -m src.get_data
+    deps:
+    - path: config/get_data.yaml
+      hash: md5
+      md5: 441a5d543a31ae393aa52e5abd5c2c4c
+      size: 271
+    - path: src/get_data.py
+      hash: md5
+      md5: 7552e21796aafc522e17ce22188698f1
+      size: 3141
+    outs:
+    - path: data/get_data.parquet
+      hash: md5
+      md5: 24c7e6af77a992c961e1fa23cf61555d
+      size: 167744660
