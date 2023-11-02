@@ -20,11 +20,11 @@ def test_calculate_features():
     expected = pd.DataFrame(
         [
             ["A", "2020-01-01", 100, np.NaN],
-            ["A", "2020-01-02", 200, 150],
+            ["A", "2020-01-02", 200, 1.33],  # 200 / 150
             ["B", "2020-01-01", 1, np.NaN],
             ["B", "2020-01-02", 1, 1],
         ],
         columns=["Symbol", "Date", "Close", "sma_2"],
     )
     res = calculate_features(df, window_lengths=[2]).reset_index(drop=True)
-    pd.testing.assert_frame_equal(res, expected)
+    pd.testing.assert_frame_equal(res, expected, atol=1e-2)

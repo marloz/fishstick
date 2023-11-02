@@ -10,7 +10,9 @@ from src.config import FeatureConfig
 def moving_avg(
     df: pd.DataFrame, index: str | List[str], value_col: str, window: int
 ) -> pd.Series:
-    return (
+    """Divide current value by its moving average to standardize values by
+    considering relative features"""
+    return df[value_col].div(
         df.groupby(index)[value_col]
         .rolling(window=window)
         .mean()
