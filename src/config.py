@@ -29,3 +29,11 @@ class FeatureConfig:
     output_path: str
     columns: List[str]
     window_lengths: List[int]
+
+
+@dataclass
+class TargetConfig:
+    look_ahead_days: int
+    columns: List[str]
+    input_path: str
+    output_path: str

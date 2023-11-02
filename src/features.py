@@ -32,10 +32,13 @@ def main(config: FeatureConfig) -> None:
 
     logger.info("Reading data")
     df = pd.read_parquet(config.input_path, columns=config.columns)
+    input_rows = len(df)
+    logger.info(f"Input shape: {df.shape}")
 
     logger.info("Calculating features")
     df = calculate_features(df, window_lengths=config.window_lengths)
     logger.info(f"Output shape: {df.shape}")
+    assert input_rows == len(df), "Number of rows changed!"
 
     logger.info("Writing result")
     df.to_parquet(config.output_path, index=False)

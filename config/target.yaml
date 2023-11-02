@@ -1,0 +1,9 @@
+look_ahead_days: 1
+
+columns:
+  - Date
+  - Symbol
+  - Close
+
+input_path: 'data/features.parquet'
+output_path: 'data/target.parquet'

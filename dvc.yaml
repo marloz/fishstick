@@ -16,3 +16,12 @@ stages:
     - data/get_data.parquet
     outs:
     - data/features.parquet
+
+  target:
+    cmd: python -m src.target
+    deps:
+    - src/target.py
+    - config/target.yaml
+    - data/get_data.parquet
+    outs:
+    - data/target.parquet
