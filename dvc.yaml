@@ -1,4 +1,5 @@
 stages:
+
   get_data:
     cmd: python -m src.get_data
     deps:
@@ -6,3 +7,12 @@ stages:
     - config/get_data.yaml
     outs:
     - data/get_data.parquet
+
+  features:
+    cmd: python -m src.features
+    deps:
+    - src/features.py
+    - config/features.yaml
+    - data/get_data.parquet
+    outs:
+    - data/features.parquet

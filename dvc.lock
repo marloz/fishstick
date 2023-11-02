@@ -16,3 +16,23 @@ stages:
       hash: md5
       md5: 24c7e6af77a992c961e1fa23cf61555d
       size: 167744660
+  features:
+    cmd: python -m src.features
+    deps:
+    - path: config/features.yaml
+      hash: md5
+      md5: 6b7cb347ef659837c2396354455b658b
+      size: 161
+    - path: data/get_data.parquet
+      hash: md5
+      md5: 24c7e6af77a992c961e1fa23cf61555d
+      size: 167744660
+    - path: src/features.py
+      hash: md5
+      md5: 223904ddbddcd678c4738c00183871ab
+      size: 1389
+    outs:
+    - path: data/features.parquet
+      hash: md5
+      md5: 13dbc21477037a7dd1195685319eec43
+      size: 124230361

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Optional
+from typing import List, Optional
 
 
 @dataclass
@@ -21,3 +21,11 @@ class GetDataConfig:
     ticker_config: TickerScrapeConfig
     yahoo_config: YahooFinanceConfig
     output_path: str
+
+
+@dataclass
+class FeatureConfig:
+    input_path: str
+    output_path: str
+    columns: List[str]
+    window_lengths: List[int]
