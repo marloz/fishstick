@@ -25,3 +25,13 @@ stages:
     - data/get_data.parquet
     outs:
     - data/target.parquet
+
+  dataset:
+    cmd: python -m src.dataset
+    deps:
+    - src/dataset.py
+    - config/dataset.yaml
+    - data/features.parquet
+    - data/target.parquet
+    outs:
+    - data/dataset.parquet

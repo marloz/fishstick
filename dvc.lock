@@ -56,3 +56,27 @@ stages:
       hash: md5
       md5: 8a9416d65bfb435e37ae87368e739576
       size: 28128206
+  dataset:
+    cmd: python -m src.dataset
+    deps:
+    - path: config/dataset.yaml
+      hash: md5
+      md5: 70561540a315f513d670260f3c26eb12
+      size: 164
+    - path: data/features.parquet
+      hash: md5
+      md5: 13dbc21477037a7dd1195685319eec43
+      size: 124230361
+    - path: data/target.parquet
+      hash: md5
+      md5: 8a9416d65bfb435e37ae87368e739576
+      size: 28128206
+    - path: src/dataset.py
+      hash: md5
+      md5: 0cdf1ba9c2217ac6dc8dfc10ec21eacb
+      size: 1719
+    outs:
+    - path: data/dataset.parquet
+      hash: md5
+      md5: 6c205b6adf83a494245cf7767215f6e4
+      size: 124759074

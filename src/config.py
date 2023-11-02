@@ -37,3 +37,12 @@ class TargetConfig:
     columns: List[str]
     input_path: str
     output_path: str
+
+
+@dataclass
+class DatasetConfig:
+    features_path: str
+    target_path: str
+    longest_window_feature: str
+    train_cutoff: str
+    output_path: str
