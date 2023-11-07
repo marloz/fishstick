@@ -5,13 +5,11 @@ import hydra
 import pandas as pd
 import requests
 import yfinance as yf
-from hydra.core.config_store import ConfigStore
 from loguru import logger
+from omegaconf import DictConfig
 
 from src.config import GetDataConfig
-
-cs = ConfigStore.instance()
-cs.store(name="get_data_confg", node=GetDataConfig)
+from src.utils import parse_dict_config
 
 
 def scrape_tickers(url: str, limit: Optional[int] = None) -> list[str]:
@@ -45,10 +43,11 @@ def get_daily_ticker_data(
 
 
 @hydra.main(config_path="../config", config_name="get_data", version_base=None)
-def main(config: GetDataConfig) -> None:
+def main(config_: DictConfig) -> None:
     """Scrapes current stock tickers from wiki,
     then gets their price data from yahoo finance and stores in a
     parquet file."""
+    config = parse_dict_config(GetDataConfig, config_)
     logger.info(f"Starting get data step, using config: \n{config}")
 
     logger.info("Scrapping S&P500 tickers")

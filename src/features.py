@@ -3,8 +3,10 @@ from typing import List
 import hydra
 import pandas as pd
 from loguru import logger
+from omegaconf import DictConfig
 
 from src.config import FeatureConfig
+from src.utils import parse_dict_config
 
 
 def moving_avg(
@@ -29,7 +31,8 @@ def calculate_features(df: pd.DataFrame, window_lengths: List[int]) -> pd.DataFr
 
 
 @hydra.main(config_path="../config", config_name="features", version_base=None)
-def main(config: FeatureConfig) -> None:
+def main(config_: DictConfig) -> None:
+    config = parse_dict_config(FeatureConfig, config_)
     logger.info(f"Starting feature creation step, using config: \n{config}")
 
     logger.info("Reading data")

@@ -2,8 +2,10 @@ import hydra
 import numpy as np
 import pandas as pd
 from loguru import logger
+from omegaconf import DictConfig
 
 from src.config import DatasetConfig
+from src.utils import parse_dict_config
 
 
 def create_dataset(
@@ -26,7 +28,8 @@ def create_dataset(
 
 
 @hydra.main(config_path="../config", config_name="dataset", version_base=None)
-def main(config: DatasetConfig) -> None:
+def main(config_: DictConfig) -> None:
+    config = parse_dict_config(DatasetConfig, config_)
     logger.info(f"Starting dataset creation step, using config: \n{config}")
 
     logger.info("Reading inputs")

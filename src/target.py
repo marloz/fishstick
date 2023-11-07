@@ -2,8 +2,10 @@ import hydra
 import numpy as np
 import pandas as pd
 from loguru import logger
+from omegaconf import DictConfig
 
 from src.config import TargetConfig
+from src.utils import parse_dict_config
 
 
 def calculate_target(df: pd.DataFrame, look_ahead_days: int) -> pd.DataFrame:
@@ -20,7 +22,8 @@ def calculate_target(df: pd.DataFrame, look_ahead_days: int) -> pd.DataFrame:
 
 
 @hydra.main(config_path="../config", config_name="target", version_base=None)
-def main(config: TargetConfig) -> None:
+def main(config_: DictConfig) -> None:
+    config = parse_dict_config(TargetConfig, config_)
     logger.info(f"Starting target creation step, using config: \n{config}")
 
     logger.info("Reading data")
