@@ -1,6 +1,5 @@
 ticker_config:
   url: "http://en.wikipedia.org/wiki/List_of_S%26P_500_companies"
-  include_historical: True
   ticker_limit: null
 
 yahoo_config:

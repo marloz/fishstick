@@ -38,42 +38,5 @@
 <td>1916
 </td></tr>
 </td></tr></tbody></table>
-
-<h2><span id="Selected_changes_to_the_list_of_S.26P_500_components"></span><span class="mw-headline" id="Selected_changes_to_the_list_of_S&amp;P_500_components">Selected changes to the list of S&amp;P 500 components</span><span class="mw-editsection"><span class="mw-editsection-bracket">[</span><a href="/w/index.php?title=List_of_S%26P_500_companies&amp;action=edit&amp;section=2" title="Edit section: Selected changes to the list of S&amp;P 500 components"><span>edit</span></a><span class="mw-editsection-bracket">]</span></span></h2>
-<p>S&amp;P Dow Jones Indices updates the components of the <a href="/wiki/S%26P_500_Index" class="mw-redirect" title="S&amp;P 500 Index">S&amp;P 500</a> periodically, typically in response to acquisitions, or to keep the index up to date as various companies grow or shrink in value.<sup id="cite_ref-3" class="reference"><a href="#cite_note-3">&#91;3&#93;</a></sup> Between January 1, 1963, and December 31, 2014, 1,186 index components were replaced by other components.
-</p>
-<table class="wikitable sortable" id="changes">
-<tbody><tr>
-<th data-sort-type="date" rowspan="2">Date
-</th>
-<th colspan="2">Added
-</th>
-<th colspan="2">Removed
-</th>
-<th rowspan="2">Reason
-</th></tr>
-<tr>
-<th>Ticker</th>
-<th>Security</th>
-<th>Ticker</th>
-<th>Security
-</th></tr>
-<tr>
-<td>October 18, 2023</td>
-<td>HUBB</td>
-<td><a href="/wiki/Hubbell_Incorporated" title="Hubbell Incorporated">Hubbell</a></td>
-<td>OGN</td>
-<td><a href="/wiki/Organon_%26_Co." title="Organon &amp; Co.">Organon &amp; Co.</a></td>
-<td>Market capitalization change.<sup id="cite_ref-sp20231013_4-0" class="reference"><a href="#cite_note-sp20231013-4">&#91;4&#93;</a></sup>
-</td></tr>
-<tr>
-<td>October 18, 2023</td>
-<td>LULU</td>
-<td><a href="/wiki/Lululemon_Athletica" title="Lululemon Athletica">Lululemon Athletica</a></td>
-<td>ATVI</td>
-<td><a href="/wiki/Activision_Blizzard" title="Activision Blizzard">Activision Blizzard</a></td>
-<td>S&amp;P 500 and S&amp;P 100 constituent <a href="/wiki/Acquisition_of_Activision_Blizzard_by_Microsoft" title="Acquisition of Activision Blizzard by Microsoft">Microsoft acquired Activision Blizzard</a>.<sup id="cite_ref-sp20231013_4-1" class="reference"><a href="#cite_note-sp20231013-4">&#91;4&#93;</a></sup>
-</td></tr>
-</td></tr></tbody></table>
 </body>
 </html>

@@ -20,20 +20,18 @@ def mock_response(scrape_result) -> Mock:
 
 
 @pytest.mark.parametrize(
-    ["include_historical", "limit", "expected"],
+    ["limit", "expected"],
     [
-        # only fetch current tickers
-        (False, None, ["AOS", "MMM"]),
-        # fetch both historical and current tickers
-        (True, None, ["AOS", "ATVI", "HUBB", "LULU", "MMM", "OGN"]),
-        # fetch historical and limit returned list length
-        (True, 2, ["AOS", "ATVI"]),
+        # fetch current tickers
+        (None, ["AOS", "MMM"]),
+        # limit returned list length
+        (1, ["AOS"]),
     ],
 )
-def test_scrape_tickers(include_historical, limit, expected, mock_response) -> None:
+def test_scrape_tickers(limit, expected, mock_response) -> None:
     with patch("src.get_data.requests") as mock_requests:
         mock_requests.get = Mock(return_value=mock_response)
-        assert scrape_tickers("", include_historical, limit) == expected
+        assert scrape_tickers("", limit) == expected
 
 
 @pytest.fixture
