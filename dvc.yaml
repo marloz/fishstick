@@ -35,3 +35,13 @@ stages:
     - data/target.parquet
     outs:
     - data/dataset.parquet
+
+  train:
+    cmd: python -m src.train
+    deps:
+    - src/train.py
+    - config/train.yaml
+    - data/dataset.parquet
+    outs:
+    - models/model.dill
+    - models/metrics.json

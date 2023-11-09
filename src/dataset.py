@@ -16,20 +16,24 @@ def create_dataset(
 ) -> pd.DataFrame:
     """Join target with features, filter out rows where either target or longest
     window feature is not available and indicate train/test split based on point
-    in time"""
+    in time. Convert target to binary integer for compatibility with sklearn's
+    classifiers"""
     join_columns = ["Date", "Symbol"]
     return (
         df_features.merge(
             df_target[join_columns + ["target"]], on=join_columns, how="inner"
         )
         .loc[lambda x: ~(x["target"].isnull() | x[longest_window_feature].isnull())]
-        .assign(dataset=lambda x: np.where(x["Date"] < train_cutoff, "train", "test"))
+        .assign(
+            dataset=lambda x: np.where(x["Date"] < train_cutoff, "train", "test"),
+            target=lambda x: x["target"].astype(int),
+        )
     )
 
 
 @hydra.main(config_path="../config", config_name="dataset", version_base=None)
 def main(config_: DictConfig) -> None:
-    config = parse_dict_config(DatasetConfig, config_)
+    config: DatasetConfig = parse_dict_config(DatasetConfig, config_)
     logger.info(f"Starting dataset creation step, using config: \n{config}")
 
     logger.info("Reading inputs")

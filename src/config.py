@@ -1,11 +1,10 @@
 from dataclasses import dataclass
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 
 
 @dataclass
 class TickerScrapeConfig:
     url: str
-    include_historical: bool
     ticker_limit: Optional[int] = None
 
 
@@ -46,3 +45,12 @@ class DatasetConfig:
     longest_window_feature: str
     train_cutoff: str
     output_path: str
+
+
+@dataclass
+class TrainConfig:
+    input_path: str
+    model_path: str
+    metrics_path: str
+    features: List[str]
+    model: Dict[str, Any]

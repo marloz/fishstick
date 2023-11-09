@@ -47,7 +47,7 @@ def main(config_: DictConfig) -> None:
     """Scrapes current stock tickers from wiki,
     then gets their price data from yahoo finance and stores in a
     parquet file."""
-    config = parse_dict_config(GetDataConfig, config_)
+    config: GetDataConfig = parse_dict_config(GetDataConfig, config_)
     logger.info(f"Starting get data step, using config: \n{config}")
 
     logger.info("Scrapping S&P500 tickers")

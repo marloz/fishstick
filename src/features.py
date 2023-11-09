@@ -15,7 +15,7 @@ def moving_avg(
     """Divide current value by its moving average to standardize values by
     considering relative features"""
     return df[value_col].div(
-        df.groupby(index)[value_col]
+        df.groupby(index)[value_col]  # type: ignore
         .rolling(window=window)
         .mean()
         .reset_index(level=0, drop=True)
@@ -32,7 +32,7 @@ def calculate_features(df: pd.DataFrame, window_lengths: List[int]) -> pd.DataFr
 
 @hydra.main(config_path="../config", config_name="features", version_base=None)
 def main(config_: DictConfig) -> None:
-    config = parse_dict_config(FeatureConfig, config_)
+    config: FeatureConfig = parse_dict_config(FeatureConfig, config_)
     logger.info(f"Starting feature creation step, using config: \n{config}")
 
     logger.info("Reading data")

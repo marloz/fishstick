@@ -5,17 +5,17 @@ stages:
     deps:
     - path: config/get_data.yaml
       hash: md5
-      md5: 441a5d543a31ae393aa52e5abd5c2c4c
-      size: 271
+      md5: 0516becb8f7ef0901cc2f964be33f693
+      size: 243
     - path: src/get_data.py
       hash: md5
-      md5: 7552e21796aafc522e17ce22188698f1
-      size: 3141
+      md5: c346e08900b6804d9fd9a0e0fa4d252d
+      size: 2473
     outs:
     - path: data/get_data.parquet
       hash: md5
-      md5: 24c7e6af77a992c961e1fa23cf61555d
-      size: 167744660
+      md5: 2921975de2d1194e6cc39b873ab2c9df
+      size: 111256841
   features:
     cmd: python -m src.features
     deps:
@@ -25,17 +25,17 @@ stages:
       size: 161
     - path: data/get_data.parquet
       hash: md5
-      md5: 24c7e6af77a992c961e1fa23cf61555d
-      size: 167744660
+      md5: 2921975de2d1194e6cc39b873ab2c9df
+      size: 111256841
     - path: src/features.py
       hash: md5
-      md5: 37d8b46dd792e7a9468b6ea0e7995592
-      size: 1652
+      md5: 52ed2f83afb2f91cdf33b01afd6e21c2
+      size: 1796
     outs:
     - path: data/features.parquet
       hash: md5
-      md5: c52658f4b44a54c55c4d690c3287dc67
-      size: 153180609
+      md5: 66fb658b04d832bd212ba6e45979d1b8
+      size: 123083304
   target:
     cmd: python -m src.target
     deps:
@@ -45,17 +45,17 @@ stages:
       size: 138
     - path: data/get_data.parquet
       hash: md5
-      md5: 24c7e6af77a992c961e1fa23cf61555d
-      size: 167744660
+      md5: 2921975de2d1194e6cc39b873ab2c9df
+      size: 111256841
     - path: src/target.py
       hash: md5
-      md5: a565e9f6a628f0f14edae5cd4fa763d4
-      size: 1429
+      md5: 92f40a37731bfe6a3642cc38af577555
+      size: 1572
     outs:
     - path: data/target.parquet
       hash: md5
-      md5: 8a9416d65bfb435e37ae87368e739576
-      size: 28128206
+      md5: 706dcbb44dd08a5ed549356091e6d398
+      size: 24906051
   dataset:
     cmd: python -m src.dataset
     deps:
@@ -65,18 +65,42 @@ stages:
       size: 164
     - path: data/features.parquet
       hash: md5
-      md5: c52658f4b44a54c55c4d690c3287dc67
-      size: 153180609
+      md5: 66fb658b04d832bd212ba6e45979d1b8
+      size: 123083304
     - path: data/target.parquet
       hash: md5
-      md5: 8a9416d65bfb435e37ae87368e739576
-      size: 28128206
+      md5: 706dcbb44dd08a5ed549356091e6d398
+      size: 24906051
     - path: src/dataset.py
       hash: md5
-      md5: 0cdf1ba9c2217ac6dc8dfc10ec21eacb
-      size: 1719
+      md5: b4e8ce9a51d07abf40aa6b4ecd0ee3c8
+      size: 2027
     outs:
     - path: data/dataset.parquet
       hash: md5
-      md5: 4fe8694ce1137614a93017010bc5ab7d
-      size: 153717350
+      md5: 0ed6871d1b3cd5a07a48433ca1ce0b8c
+      size: 123092347
+  train:
+    cmd: python -m src.train
+    deps:
+    - path: config/train.yaml
+      hash: md5
+      md5: c76b2ab60cb339354b7123683ce98d89
+      size: 192
+    - path: data/dataset.parquet
+      hash: md5
+      md5: 0ed6871d1b3cd5a07a48433ca1ce0b8c
+      size: 123092347
+    - path: src/train.py
+      hash: md5
+      md5: 0165162295d11fa847072e0c698579ec
+      size: 2537
+    outs:
+    - path: models/metrics.json
+      hash: md5
+      md5: f4ebd3cedda3c86ed0d35c72717e441a
+      size: 69
+    - path: models/model.dill
+      hash: md5
+      md5: 64d2681865d1875ebb0a055f73bd2ae4
+      size: 475484
