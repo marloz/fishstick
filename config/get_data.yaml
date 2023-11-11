@@ -3,7 +3,7 @@ ticker_config:
   ticker_limit: null
 
 yahoo_config:
-  start_date: 1957-03-04  # start of S&P500
+  start_date: 1962-01-02
   end_date: 2023-10-27
   interval: 1d
 

@@ -8,6 +8,7 @@ dvc==3.28.0
 mlflow==2.8.0
 dacite==1.8.1
 dill==0.3.7
+pandera==0.17.2
 
 #dev
 ipython==8.16.1
