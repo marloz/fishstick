@@ -1,17 +1,12 @@
 from typing import List
 
-import hydra
 import pandas as pd
 from loguru import logger
-from omegaconf import DictConfig
 
-from src.config import FeatureConfig
-from src.utils import parse_dict_config
+from src.utils import log_io_length
 
 
-def moving_avg(
-    df: pd.DataFrame, index: str | List[str], value_col: str, window: int
-) -> pd.Series:
+def moving_avg(df: pd.DataFrame, index: str | List[str], value_col: str, window: int) -> pd.Series:
     """Divide current value by its moving average to standardize values by
     considering relative features"""
     return df[value_col].div(
@@ -22,34 +17,14 @@ def moving_avg(
     )
 
 
+@log_io_length
 def calculate_features(df: pd.DataFrame, window_lengths: List[int]) -> pd.DataFrame:
+    logger.info("Calculating features")
+    input_rows = len(df)
     moving_averages = {
         f"sma_{str(window)}": lambda x: moving_avg(x, "Symbol", "Close", window)
         for window in window_lengths
     }
-    return df.sort_values(by=["Symbol", "Date"]).assign(**moving_averages)
-
-
-@hydra.main(config_path="../config", config_name="features", version_base=None)
-def main(config_: DictConfig) -> None:
-    config: FeatureConfig = parse_dict_config(FeatureConfig, config_)
-    logger.info(f"Starting feature creation step, using config: \n{config}")
-
-    logger.info("Reading data")
-    df = pd.read_parquet(config.input_path, columns=config.columns)
-    input_rows = len(df)
-    logger.info(f"Input shape: {df.shape}")
-
-    logger.info("Calculating features")
-    df = calculate_features(df, window_lengths=config.window_lengths)
-    logger.info(f"Output shape: {df.shape}")
+    df = df.sort_values(by=["Symbol", "Date"]).assign(**moving_averages)
     assert input_rows == len(df), "Number of rows changed!"
-
-    logger.info("Writing result")
-    df.to_parquet(config.output_path, index=False)
-
-    logger.info("Done!")
-
-
-if __name__ == "__main__":
-    main()  # pylint: disable=E1120:no-value-for-parameter
+    return df
