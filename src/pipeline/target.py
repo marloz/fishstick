@@ -1,11 +1,21 @@
+from dataclasses import dataclass
+from typing import List
+
 import hydra
 import numpy as np
 import pandas as pd
 from loguru import logger
 from omegaconf import DictConfig
 
-from src.config import TargetConfig
 from src.utils import log_io_length, parse_dict_config
+
+
+@dataclass
+class TargetConfig:
+    look_ahead_days: int
+    columns: List[str]
+    input_path: str
+    output_path: str
 
 
 @log_io_length

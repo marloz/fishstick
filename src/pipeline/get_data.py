@@ -1,10 +1,32 @@
+from dataclasses import dataclass
+from typing import Optional
+
 import hydra
 from loguru import logger
 from omegaconf import DictConfig
 
-from src.config import GetDataConfig
 from src.data import scrape_tickers, ticker_pipe
 from src.utils import parse_dict_config
+
+
+@dataclass
+class TickerScrapeConfig:
+    url: str
+    ticker_limit: Optional[int] = None
+
+
+@dataclass
+class YahooFinanceConfig:
+    start_date: str
+    end_date: str
+    interval: str
+
+
+@dataclass
+class GetDataConfig:
+    ticker_config: TickerScrapeConfig
+    yahoo_config: YahooFinanceConfig
+    output_path: str
 
 
 @hydra.main(config_path="../../config", config_name="get_data", version_base=None)

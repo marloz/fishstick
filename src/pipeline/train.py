@@ -1,12 +1,23 @@
+from dataclasses import dataclass
+from typing import Any
+
 import hydra
 import pandas as pd
 from hydra.utils import instantiate
 from loguru import logger
 from omegaconf import DictConfig
 
-from src.config import TrainConfig
 from src.model import Model, ModelTrainer, save_model
 from src.utils import parse_dict_config
+
+
+@dataclass
+class TrainConfig:
+    input_path: str
+    model_path: str
+    metrics_path: str
+    features: list[str]
+    model: dict[str, Any]
 
 
 @hydra.main(config_path="../../config", config_name="train", version_base=None)

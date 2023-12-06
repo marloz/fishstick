@@ -1,7 +1,6 @@
 from functools import wraps
 from typing import Any, Callable
 
-import pandas as pd
 from dacite import from_dict
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf

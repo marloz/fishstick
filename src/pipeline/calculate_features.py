@@ -1,11 +1,21 @@
+from dataclasses import dataclass
+from typing import List
+
 import hydra
 import pandas as pd
 from loguru import logger
 from omegaconf import DictConfig
 
-from src.config import FeatureConfig
 from src.features import calculate_features
 from src.utils import parse_dict_config
+
+
+@dataclass
+class FeatureConfig:
+    input_path: str
+    output_path: str
+    columns: List[str]
+    window_lengths: List[int]
 
 
 @hydra.main(config_path="../../config", config_name="features", version_base=None)

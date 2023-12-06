@@ -1,11 +1,21 @@
+from dataclasses import dataclass
+
 import hydra
 import numpy as np
 import pandas as pd
 from loguru import logger
 from omegaconf import DictConfig
 
-from src.config import DatasetConfig
 from src.utils import log_io_length, parse_dict_config
+
+
+@dataclass
+class DatasetConfig:
+    features_path: str
+    target_path: str
+    longest_window_feature: str
+    train_cutoff: str
+    output_path: str
 
 
 @log_io_length

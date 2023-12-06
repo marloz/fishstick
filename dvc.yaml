@@ -1,35 +1,35 @@
 stages:
 
   get_data:
-    cmd: python -m src.feature_pipeline.get_data
+    cmd: python -m src.pipeline.get_data
     deps:
-    - src/feature_pipeline/get_data.py
+    - src/pipeline/get_data.py
     - config/get_data.yaml
     outs:
     - data/get_data.parquet
 
   features:
-    cmd: python -m src.feature_pipeline.calculate_features
+    cmd: python -m src.pipeline.calculate_features
     deps:
-    - src/feature_pipeline/calculate_features.py
+    - src/pipeline/calculate_features.py
     - config/features.yaml
     - data/get_data.parquet
     outs:
     - data/features.parquet
 
   target:
-    cmd: python -m src.feature_pipeline.target
+    cmd: python -m src.pipeline.target
     deps:
-    - src/feature_pipeline/target.py
+    - src/pipeline/target.py
     - config/target.yaml
     - data/get_data.parquet
     outs:
     - data/target.parquet
 
   dataset:
-    cmd: python -m src.feature_pipeline.dataset
+    cmd: python -m src.pipeline.dataset
     deps:
-    - src/feature_pipeline/dataset.py
+    - src/pipeline/dataset.py
     - config/dataset.yaml
     - data/features.parquet
     - data/target.parquet
@@ -37,9 +37,9 @@ stages:
     - data/dataset.parquet
 
   train:
-    cmd: python -m src.training_pipeline.train
+    cmd: python -m src.pipeline.train
     deps:
-    - src/training_pipeline/train.py
+    - src/pipeline/train.py
     - config/train.yaml
     - data/dataset.parquet
     outs:
