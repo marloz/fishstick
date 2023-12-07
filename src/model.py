@@ -4,10 +4,12 @@ from enum import StrEnum
 from typing import List, Protocol
 
 import dill
+import hydra
 import numpy as np
 import pandas as pd
 from loguru import logger
 from sklearn.metrics import auc, roc_curve
+from sklearn.pipeline import Pipeline
 
 
 class Model(Protocol):
@@ -73,3 +75,15 @@ class ModelTrainer:
         preds = self.model.predict(X)
         fpr, tpr, _ = roc_curve(y, preds)
         return float(auc(fpr, tpr))
+
+
+def make_pipeline(steps_config: dict) -> Model:
+    """Creates a pipeline with all the preprocessing steps specified in `steps_config`, ordered in a sequential manner
+    https://medium.com/beyondminds/creating-configurable-data-pre-processing-pipelines-by-combining-hydra-and-sklearn-812065c9ab64
+    """
+    return Pipeline(
+        [
+            (step_name, hydra.utils.instantiate(step_params))
+            for step_name, step_params in steps_config.items()
+        ]
+    )  # type: ignore

@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List
 
 import hydra
@@ -9,13 +9,15 @@ from omegaconf import DictConfig
 from src.features import calculate_features
 from src.utils import parse_dict_config
 
+WINDOW_LENGTHS = [50, 100, 200]
+
 
 @dataclass
 class FeatureConfig:
     input_path: str
     output_path: str
     columns: List[str]
-    window_lengths: List[int]
+    window_lengths: List[int] = field(default_factory=lambda: WINDOW_LENGTHS)
 
 
 @hydra.main(config_path="../../config", config_name="features", version_base=None)

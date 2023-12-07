@@ -10,7 +10,7 @@ def moving_avg(df: pd.DataFrame, index: str | List[str], value_col: str, window:
     """Divide current value by its moving average to standardize values by
     considering relative features"""
     return df[value_col].div(
-        df.groupby(index)[value_col]  # type: ignore
+        df.groupby(index, observed=True)[value_col]  # type: ignore
         .rolling(window=window)
         .mean()
         .reset_index(level=0, drop=True)
@@ -21,10 +21,9 @@ def moving_avg(df: pd.DataFrame, index: str | List[str], value_col: str, window:
 def calculate_features(df: pd.DataFrame, window_lengths: List[int]) -> pd.DataFrame:
     logger.info("Calculating features")
     input_rows = len(df)
-    moving_averages = {
-        f"sma_{str(window)}": lambda x: moving_avg(x, "Symbol", "Close", window)
-        for window in window_lengths
-    }
-    df = df.sort_values(by=["Symbol", "Date"]).assign(**moving_averages)
+    df.sort_values(by=["Symbol", "Date"], inplace=True)
+    for window in window_lengths:
+        feat = f"sma_{str(window)}"
+        df[feat] = moving_avg(df, "Symbol", "Close", window)
     assert input_rows == len(df), "Number of rows changed!"
     return df

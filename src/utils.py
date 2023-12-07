@@ -1,6 +1,7 @@
 from functools import wraps
 from typing import Any, Callable
 
+import hydra
 from dacite import from_dict
 from loguru import logger
 from omegaconf import DictConfig, OmegaConf
@@ -20,3 +21,9 @@ def log_io_length(func: Callable) -> Any:
         return result
 
     return wrapper
+
+
+def load_config(config_name: str, config_path: str = "../config") -> dict:
+    with hydra.initialize(config_path=config_path, version_base=None):
+        cfg = hydra.compose(config_name=config_name)
+        return OmegaConf.to_container(cfg, resolve=True)  # type: ignore
