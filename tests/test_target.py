@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.target import calculate_target
+from src.pipeline.target import calculate_target
 
 
 def test_calculate_target() -> None:

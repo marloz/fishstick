@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 from mock import Mock, patch
 
-from src.get_data import get_daily_ticker_data, scrape_tickers
+from src import data
 
 
 @pytest.fixture
@@ -29,9 +29,9 @@ def mock_response(scrape_result) -> Mock:
     ],
 )
 def test_scrape_tickers(limit, expected, mock_response) -> None:
-    with patch("src.get_data.requests") as mock_requests:
+    with patch(f"{data.__name__}.requests") as mock_requests:
         mock_requests.get = Mock(return_value=mock_response)
-        assert scrape_tickers("", limit) == expected
+        assert data.scrape_tickers("", limit) == expected
 
 
 @pytest.fixture
@@ -46,9 +46,7 @@ def yahoo_df() -> pd.DataFrame:
             [0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
         ],
     )
-    index = pd.DatetimeIndex(
-        data=["2020-01-02", "2020-01-03"], dtype="datetime64[ns]", name="Date"
-    )
+    index = pd.DatetimeIndex(data=["2020-01-02", "2020-01-03"], dtype="datetime64[ns]", name="Date")
     return pd.DataFrame(
         [
             [233, 154, 233, 180, 233, 180, 231, 177, 232, 177, 1449300, 3601700],
@@ -119,10 +117,10 @@ def get_daily_ticker_data_expected() -> pd.DataFrame:
 
 
 def test_get_daily_ticker_data(yahoo_df, get_daily_ticker_data_expected) -> None:
-    with patch("src.get_data.yf") as mock_yf:
+    with patch(f"{data.__name__}.yf") as mock_yf:
         mock_yf.download = Mock(return_value=yahoo_df)
         tickers = ["LULU", "MMM"]
         start = "2020-01-01"
         end = "2020-01-04"
-        res = get_daily_ticker_data(tickers, start, end)
+        res = data.get_daily_ticker_data(tickers, start, end)
         pd.testing.assert_frame_equal(res, get_daily_ticker_data_expected)

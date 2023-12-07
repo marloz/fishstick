@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from src.dataset import create_dataset
+from src.pipeline.dataset import create_dataset
 
 
 def test_dataset() -> None:
@@ -36,7 +36,7 @@ def test_dataset() -> None:
     expected = pd.DataFrame(
         [["2020-01-01", "A", 100, 1.0, "train"], ["2020-02-01", "A", 100, 0.0, "test"]],
         columns=["Date", "Symbol", "some_feat", "target", "dataset"],
-    )
+    ).assign(target=lambda x: x["target"].astype("int32"))
 
     res = create_dataset(
         df_feat,
