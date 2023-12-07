@@ -1,7 +1,8 @@
 stages:
 
   get_data:
-    cmd: python -m src.pipeline.get_data
+    cmd: "python -m src.pipeline.get_data
+      output_path=data/get_data.parquet"
     deps:
     - src/pipeline/get_data.py
     - config/get_data.yaml
@@ -9,7 +10,9 @@ stages:
     - data/get_data.parquet
 
   features:
-    cmd: python -m src.pipeline.calculate_features
+    cmd: "python -m src.pipeline.calculate_features
+      input_path=data/get_data.parquet
+      output_path=data/features.parquet"
     deps:
     - src/pipeline/calculate_features.py
     - config/features.yaml
@@ -18,7 +21,9 @@ stages:
     - data/features.parquet
 
   target:
-    cmd: python -m src.pipeline.target
+    cmd: "python -m src.pipeline.target
+      input_path=data/get_data.parquet
+      output_path=data/target.parquet"
     deps:
     - src/pipeline/target.py
     - config/target.yaml
@@ -27,7 +32,10 @@ stages:
     - data/target.parquet
 
   dataset:
-    cmd: python -m src.pipeline.dataset
+    cmd: "python -m src.pipeline.dataset
+      features_path=data/features.parquet
+      target_path=data/target.parquet
+      output_path=data/dataset.parquet"
     deps:
     - src/pipeline/dataset.py
     - config/dataset.yaml
@@ -37,7 +45,10 @@ stages:
     - data/dataset.parquet
 
   train:
-    cmd: python -m src.pipeline.train
+    cmd: "python -m src.pipeline.train
+      input_path=data/dataset.parquet
+      model_path=models/model.dill
+      metrics_path=models/metrics.json"
     deps:
     - src/pipeline/train.py
     - config/train.yaml

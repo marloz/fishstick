@@ -8,5 +8,5 @@ columns:
   - Symbol
   - Close
 
-input_path: data/get_data.parquet
-output_path: data/features.parquet
+input_path: ???
+output_path: ???

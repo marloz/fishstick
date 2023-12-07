@@ -1,5 +1,5 @@
-features_path: data/features.parquet
-target_path: data/target.parquet
+features_path: ???
+target_path: ???
 longest_window_feature: sma_200
 train_cutoff: 2013-01-01
-output_path: data/dataset.parquet
+output_path: ???

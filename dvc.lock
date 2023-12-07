@@ -1,12 +1,12 @@
 schema: '2.0'
 stages:
   get_data:
-    cmd: python -m src.pipeline.get_data
+    cmd: python -m src.pipeline.get_data output_path=data/get_data.parquet
     deps:
     - path: config/get_data.yaml
       hash: md5
-      md5: a07edf490dda4f8e04e53f61e63af611
-      size: 224
+      md5: e7096110861b03f46c0df1f76416919b
+      size: 206
     - path: src/pipeline/get_data.py
       hash: md5
       md5: 7c2bd3d39a9da39e7f4e60b1edd92559
@@ -14,19 +14,20 @@ stages:
     outs:
     - path: data/get_data.parquet
       hash: md5
-      md5: 1d39ccd27ab3e309a28f343b47e7a953
-      size: 91728252
+      md5: 2e7c027517a121eedfe23736a72e7fdb
+      size: 91732663
   features:
-    cmd: python -m src.pipeline.calculate_features
+    cmd: python -m src.pipeline.calculate_features input_path=data/get_data.parquet
+      output_path=data/features.parquet
     deps:
     - path: config/features.yaml
       hash: md5
-      md5: 6b7cb347ef659837c2396354455b658b
-      size: 161
+      md5: ff49ff70b149cf6f76bf94140791ff39
+      size: 125
     - path: data/get_data.parquet
       hash: md5
-      md5: 1d39ccd27ab3e309a28f343b47e7a953
-      size: 91728252
+      md5: 2e7c027517a121eedfe23736a72e7fdb
+      size: 91732663
     - path: src/pipeline/calculate_features.py
       hash: md5
       md5: 3ff532bc8e57bca3c5b7ac8111b62fd5
@@ -37,16 +38,16 @@ stages:
       md5: 0f907f7fc8dd5f1c106622daca3a0a43
       size: 120023334
   target:
-    cmd: python -m src.pipeline.target
+    cmd: python -m src.pipeline.target input_path=data/get_data.parquet output_path=data/target.parquet
     deps:
     - path: config/target.yaml
       hash: md5
-      md5: eb93d5ec2209509007d5b45f4f518493
-      size: 138
+      md5: 3d68a2492a272da17c4b16cf77c10bf7
+      size: 100
     - path: data/get_data.parquet
       hash: md5
-      md5: 1d39ccd27ab3e309a28f343b47e7a953
-      size: 91728252
+      md5: 2e7c027517a121eedfe23736a72e7fdb
+      size: 91732663
     - path: src/pipeline/target.py
       hash: md5
       md5: 8b086e875a9279dda655e28b3478dfab
@@ -57,12 +58,13 @@ stages:
       md5: 423d6a114189dab45beaa940f4f417b8
       size: 21846015
   dataset:
-    cmd: python -m src.pipeline.dataset
+    cmd: python -m src.pipeline.dataset features_path=data/features.parquet target_path=data/target.parquet
+      output_path=data/dataset.parquet
     deps:
     - path: config/dataset.yaml
       hash: md5
-      md5: 70561540a315f513d670260f3c26eb12
-      size: 164
+      md5: b55aaa1de075af07c276da62e84d253e
+      size: 113
     - path: data/features.parquet
       hash: md5
       md5: 0f907f7fc8dd5f1c106622daca3a0a43
@@ -81,12 +83,13 @@ stages:
       md5: 36f417dbf7bcccecbd43826027fbfa08
       size: 119984690
   train:
-    cmd: python -m src.pipeline.train
+    cmd: python -m src.pipeline.train input_path=data/dataset.parquet model_path=models/model.dill
+      metrics_path=models/metrics.json
     deps:
     - path: config/train.yaml
       hash: md5
-      md5: c76b2ab60cb339354b7123683ce98d89
-      size: 192
+      md5: e1df267795804ff65bd82ebd1964ae3e
+      size: 145
     - path: data/dataset.parquet
       hash: md5
       md5: 36f417dbf7bcccecbd43826027fbfa08

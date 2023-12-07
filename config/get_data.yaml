@@ -7,4 +7,4 @@ yahoo_config:
   end_date: 2023-10-27
   interval: 1d
 
-output_path: data/get_data.parquet
+output_path: ???

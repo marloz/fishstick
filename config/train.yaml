@@ -1,9 +1,9 @@
 defaults:
   - model: random_forest
 
-input_path: data/dataset.parquet
-model_path: models/model.dill
-metrics_path: models/metrics.json
+input_path: ???
+model_path: ???
+metrics_path: ???
 
 features:
   - sma_50

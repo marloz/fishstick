@@ -5,5 +5,5 @@ columns:
   - Symbol
   - Close
 
-input_path: 'data/features.parquet'
-output_path: 'data/target.parquet'
+input_path: ???
+output_path: ???
