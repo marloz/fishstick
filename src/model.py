@@ -41,6 +41,10 @@ def save_model(model: Model, path: str) -> None:
     with open(path, "wb") as f:
         dill.dump(model, f)
 
+def load_model(path: str) -> Model:
+    with open(path, 'rb') as f:
+        return dill.load(f)
+
 
 class ModelTrainer:
     model: Model
