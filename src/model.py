@@ -1,13 +1,15 @@
 import json
 from dataclasses import dataclass
 from enum import StrEnum
-from typing import List, Protocol
+from typing import List, Optional, Protocol
 
 import dill
 import hydra
 import numpy as np
 import pandas as pd
 from loguru import logger
+from omegaconf import OmegaConf
+from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.metrics import auc, roc_curve
 from sklearn.pipeline import Pipeline
 
@@ -83,7 +85,20 @@ def make_pipeline(steps_config: dict) -> Model:
     """
     return Pipeline(
         [
-            (step_name, hydra.utils.instantiate(step_params))
+            (step_name, hydra.utils.instantiate(step_params, _convert_="partial"))
             for step_name, step_params in steps_config.items()
         ]
     )  # type: ignore
+
+
+class ColumnSelector(BaseEstimator, TransformerMixin):
+    "Using this instead of ColumnTransformer, to simplify tuple handling in config"
+
+    def __init__(self, columns: list[str]) -> None:
+        self.columns = columns
+
+    def fit(self, X: pd.DataFrame, y: Optional[pd.Series] = None) -> "ColumnSelector":
+        return self
+
+    def transform(self, X: pd.DataFrame, y: Optional[pd.Series] = None) -> pd.DataFrame:
+        return X[self.columns]

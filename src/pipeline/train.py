@@ -3,11 +3,10 @@ from typing import Any
 
 import hydra
 import pandas as pd
-from hydra.utils import instantiate
 from loguru import logger
 from omegaconf import DictConfig
 
-from src.model import Model, ModelTrainer, save_model
+from src.model import Model, ModelTrainer, make_pipeline, save_model
 from src.utils import parse_dict_config
 
 
@@ -17,7 +16,7 @@ class TrainConfig:
     model_path: str
     metrics_path: str
     features: list[str]
-    model: dict[str, Any]
+    steps: dict[str, Any]
 
 
 @hydra.main(config_path="../../config", config_name="train", version_base=None)
@@ -26,7 +25,7 @@ def main(config_: DictConfig) -> None:
     logger.info(f"Starting training step, using config: \n{config}")
 
     logger.info("Loading model")
-    model: Model = instantiate(config.model)
+    model: Model = make_pipeline(config.steps)
 
     logger.info("Loading data")
     df = pd.read_parquet(config.input_path)

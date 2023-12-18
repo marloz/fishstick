@@ -1,12 +1,20 @@
 defaults:
   - model: random_forest
 
-input_path: ???
-model_path: ???
-metrics_path: ???
-
 features:
   - sma_50
   - sma_100
   - sma_200
+
+steps:
+  selector:
+    _target_: src.model.ColumnSelector
+    columns: ${features}
+  classifier: ${model}
+
+input_path: ???
+model_path: ???
+metrics_path: ???
+
+
 
