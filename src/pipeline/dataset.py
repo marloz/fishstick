@@ -40,7 +40,7 @@ def create_dataset(
         .loc[lambda x: ~(x["target"].isnull() | x[longest_window_feature].isnull())]
         .assign(
             dataset=lambda x: np.where(x["Date"] < train_cutoff, "train", "test"),
-            target=lambda x: x["target"].astype(int),
+            target=lambda x: x["target"].astype("int32"),
         )
     )
 
