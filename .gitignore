@@ -4,3 +4,4 @@ __pycache__
 sandbox.ipynb
 mlruns
 models/*
+.coverage
