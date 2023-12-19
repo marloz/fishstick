@@ -8,7 +8,6 @@ import hydra
 import numpy as np
 import pandas as pd
 from loguru import logger
-from omegaconf import OmegaConf
 from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.metrics import auc, roc_curve
 from sklearn.pipeline import Pipeline
@@ -19,6 +18,9 @@ class Model(Protocol):
         ...
 
     def predict(self, X: pd.DataFrame) -> np.ndarray:
+        ...
+
+    def predict_proba(self, X: pd.DataFrame) -> np.ndarray:
         ...
 
 
@@ -41,8 +43,9 @@ def save_model(model: Model, path: str) -> None:
     with open(path, "wb") as f:
         dill.dump(model, f)
 
+
 def load_model(path: str) -> Model:
-    with open(path, 'rb') as f:
+    with open(path, "rb") as f:
         return dill.load(f)
 
 
