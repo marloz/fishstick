@@ -1,0 +1,8 @@
+# not needed to perform build, only development
+# install after requirements.txt
+
+dvc==3.28.0
+ipython==8.16.1
+matplotlib==3.8.1
+# evidently==0.4.8
+# mlflow==2.8.0
