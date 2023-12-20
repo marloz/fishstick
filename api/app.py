@@ -23,13 +23,21 @@ def index():
     return JSONResponse("Hi from Fishstick!")
 
 
-def get_current_features_for_ticker(ticker: str, end_date: datetime) -> pd.DataFrame:
-    start_date = (end_date - timedelta(days=LOOKBACK_WINDOW)).strftime("%F")
-    return (
-        ticker_pipe([ticker.upper()], start_date, end_date.strftime("%F"))
-        .pipe(calculate_features, window_lengths=WINDOW_LENGTHS)
-        .loc[lambda x: x["Date"] == x["Date"].max()]
-    )
+@app.post("/features")
+def get_current_features_for_ticker(ticker: str, response: Response) -> JSONResponse:
+    try:
+        logger.info(f"Getting features for ticker: {ticker}")
+        end_date = datetime.now()
+        start_date = (end_date - timedelta(days=LOOKBACK_WINDOW)).strftime("%F")
+        return (
+            ticker_pipe([ticker.upper()], start_date, end_date.strftime("%F"))
+            .pipe(calculate_features, window_lengths=WINDOW_LENGTHS)
+            .loc[lambda x: x["Date"] == x["Date"].max()]
+            .to_json(orient="records")
+        )
+    except Exception as e:
+        response.status_code = 500
+        return JSONResponse(content={"err": str(e)})
 
 
 @dataclass
@@ -38,18 +46,17 @@ class Result:
 
 
 @app.post("/predict")
-def predict(response: Response, ticker: str) -> JSONResponse:
+def predict(features: str, response: Response) -> JSONResponse:
     try:
-        logger.info(f"Starting predict call for ticker {ticker}")
-
-        end_date = datetime.now()
-        logger.info(f"Getting features for relative to {end_date}")
-        feats = get_current_features_for_ticker(ticker, end_date)
-
         logger.info(f"Loading model {MODEL_PATH}")
         model = load_model(MODEL_PATH)
 
-        pred = float(model.predict_proba(feats)[0:, 1])
+        _ = json.loads(features)
+        logger.info(_)
+        logger.info(type(_))
+        features_df = pd.DataFrame.from_dict(_)
+
+        pred = float(model.predict_proba(features_df)[0:, 1])
         res = Result(probability=pred)
         logger.info(f"Predicted probability: {res}")
         return JSONResponse(content=json.dumps(res.__dict__))
