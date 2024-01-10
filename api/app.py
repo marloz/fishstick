@@ -3,7 +3,8 @@ from dataclasses import dataclass
 from datetime import datetime, timedelta
 
 import pandas as pd
-from fastapi import FastAPI, Response
+import yfinance
+from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from loguru import logger
 
@@ -24,7 +25,7 @@ def index():
 
 
 @app.post("/features")
-def get_current_features_for_ticker(ticker: str, response: Response) -> JSONResponse:
+def get_current_features_for_ticker(ticker: str) -> JSONResponse:
     try:
         logger.info(f"Getting features for ticker: {ticker}")
         end_date = datetime.now()
@@ -36,7 +37,6 @@ def get_current_features_for_ticker(ticker: str, response: Response) -> JSONResp
             .to_json(orient="records")
         )
     except Exception as e:
-        response.status_code = 500
         return JSONResponse(content={"err": str(e)})
 
 
@@ -46,15 +46,13 @@ class Result:
 
 
 @app.post("/predict")
-def predict(features: str, response: Response) -> JSONResponse:
+def predict(features: str) -> JSONResponse:
     try:
         logger.info(f"Loading model {MODEL_PATH}")
         model = load_model(MODEL_PATH)
 
-        _ = json.loads(features)
-        logger.info(_)
-        logger.info(type(_))
-        features_df = pd.DataFrame.from_dict(_)
+        feature_dict = json.loads(features)
+        features_df = pd.DataFrame.from_dict(feature_dict)
 
         pred = float(model.predict_proba(features_df)[0:, 1])
         res = Result(probability=pred)
@@ -62,5 +60,15 @@ def predict(features: str, response: Response) -> JSONResponse:
         return JSONResponse(content=json.dumps(res.__dict__))
 
     except Exception as e:
-        response.status_code = 500
+        return JSONResponse(content={"err": str(e)})
+
+
+@app.post("/validate")
+def validate_ticker(ticker: str) -> JSONResponse:
+    try:
+        if len(yfinance.Ticker(ticker).history_metadata) == 0:
+            return JSONResponse(content={"ticker": "Not found!"})
+        return JSONResponse(content={"ticker": ticker})
+
+    except Exception as e:
         return JSONResponse(content={"err": str(e)})
